@@ -111,7 +111,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
         if (blog.author && blog.author.toString() !== req.user.id) {
             return res.status(403).json({ message: 'Unauthorized' });
         }
-        await blog.remove();
+        await Blog.deleteOne({ _id: id });
         res.json({ message: 'Blog deleted successfully' });
     } catch (error) {
         console.error('Error deleting blog:', error);
