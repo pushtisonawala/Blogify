@@ -24,7 +24,7 @@ const BlogDetailsPage = () => {
     const fetchBlog = async () => {
       try {
         console.log('Attempting to fetch blog with ID:', id);
-        const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        const response = await axios.get(`https://blogify-9j1d.onrender.com/api/blogs/${id}`);
         console.log('Blog data received:', response.data);
         
         if (response.data) {

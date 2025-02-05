@@ -85,7 +85,7 @@ const Blogify = ({ setIsAuthenticated }) => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', login);
+            const response = await axios.post('https://blogify-9j1d.onrender.com/api/auth/login', login);
             localStorage.setItem('token', response.data.token);
             setIsAuthenticated(true);
             navigate('/');
@@ -96,7 +96,7 @@ const Blogify = ({ setIsAuthenticated }) => {
 
     const handleSignUp = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/signup', signup);
+            const response = await axios.post('https://blogify-9j1d.onrender.com/api/auth/signup', signup);
             localStorage.setItem('token', response.data.token);
             setIsAuthenticated(true);
             navigate('/');

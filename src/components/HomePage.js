@@ -182,7 +182,7 @@ const HomePage = () => {
     
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/subscribers/subscribe',
+        'https://blogify-9j1d.onrender.com/api/subscribers/subscribe',
         { email },
         {
           headers: {
