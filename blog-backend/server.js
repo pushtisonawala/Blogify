@@ -25,9 +25,8 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: ['https://blogify-smoky-six.vercel.app', 'https://blogify-1-6tey.onrender.com', 'https://blogify-git-main-pushti-sonawalas-projects.vercel.app', 'http://localhost:3000'], // Ensure this line is correct
-    credentials: true
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    credentials: true,
+    
 }));
 app.use(helmet()); // Security middleware
 app.use(compression()); // Compression middleware
