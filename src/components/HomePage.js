@@ -150,7 +150,7 @@ const HomePage = () => {
 
         const response = await axios({
           method: 'DELETE',
-          url: `http://localhost:5000/api/blogs/${blogId}`,
+          url: `https://blogify-9j1d.onrender.com/api/blogs/${blogId}`,
           headers: {
             'Authorization': `Bearer ${token}`
           }
