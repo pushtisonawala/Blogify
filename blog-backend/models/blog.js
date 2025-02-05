@@ -15,12 +15,12 @@ const blogSchema = new mongoose.Schema({
     },
     excerpt: { 
         type: String, 
-        required: true 
+        required:false,
     },
     author: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
-        required: true 
+        required:false,
     }
 }, { 
     timestamps: true,
