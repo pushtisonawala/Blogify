@@ -22,7 +22,7 @@ const RecentPostsPage = () => {
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/blogs', {
+        const response = await axios.get('https://blogify-9j1d.onrender.com/api/blogs', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

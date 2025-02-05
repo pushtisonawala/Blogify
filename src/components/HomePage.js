@@ -98,7 +98,7 @@ const HomePage = () => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        const response = await axios.get('http://localhost:5000/api/blogs', {
+        const response = await axios.get('https://blogify-9j1d.onrender.com/api/blogs', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
