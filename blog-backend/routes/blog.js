@@ -79,14 +79,44 @@ const findHardcodedBlog = (id) => {
   return hardcodedBlogs.find(blog => blog.id.toString() === id.toString());
 };
 
-// POST new blog
+// Create a new blog
 router.post('/', authMiddleware, async (req, res) => {
-    // ... existing post route code ...
+    console.log('Blog Route accessed: POST /');
+    try {
+        const { title, content, image, excerpt } = req.body;
+        const newBlog = new Blog({
+            title,
+            content,
+            image,
+            excerpt,
+            author: req.user.id // Assuming req.user contains the authenticated user's info
+        });
+        const savedBlog = await newBlog.save();
+        res.status(201).json(savedBlog);
+    } catch (error) {
+        console.error('Error creating blog:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
-// DELETE blog
+// Delete a blog
 router.delete('/:id', authMiddleware, async (req, res) => {
-    // ... existing delete route code ...
+    console.log(`Blog Route accessed: DELETE /${req.params.id}`);
+    try {
+        const { id } = req.params;
+        const blog = await Blog.findById(id);
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        await blog.remove();
+        res.json({ message: 'Blog deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
 module.exports = router;

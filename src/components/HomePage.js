@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateBlogPage from "./CreateBlogPage"; // Import the CreateBlogPage component
+import EditBlogPage from './EditBlogPage'; // Import the EditBlogPage component
 
 // Sample data for featured and recent blogs
 const initialFeaturedBlogs = [
@@ -116,9 +117,30 @@ const HomePage = () => {
     fetchBlogs();
   }, []);
 
-  const addBlog = (newBlog) => {
-    setFeaturedBlogs((prev) => [...prev, newBlog]);
-    setUserBlogs((prev) => [...prev, newBlog]);
+  const addBlog = async (newBlog) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        showMessage('Please log in again', 'error');
+        navigate('/login');
+        return;
+      }
+
+      console.log('Attempting to create blog:', newBlog);
+      const response = await axios.post('https://blogify-9j1d.onrender.com/api/blogs', newBlog, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      console.log('Blog created successfully:', response.data);
+      setFeaturedBlogs((prev) => [...prev, response.data]);
+      setUserBlogs((prev) => [...prev, response.data]);
+      showMessage('Blog created successfully', 'success');
+    } catch (error) {
+      console.error('Error creating blog:', error);
+      showMessage(error.response?.data?.message || 'Error creating blog', 'error');
+    }
   };
 
   const handleCloseSnackbar = () => {
@@ -148,6 +170,7 @@ const HomePage = () => {
           return;
         }
 
+        console.log('Attempting to delete blog with ID:', blogId);
         const response = await axios({
           method: 'DELETE',
           url: `https://blogify-9j1d.onrender.com/api/blogs/${blogId}`,
@@ -157,6 +180,7 @@ const HomePage = () => {
         });
 
         if (response.status === 200) {
+          console.log('Blog deleted successfully:', blogId);
           // Mark blog as deleted in localStorage
           localStorage.setItem(`deleted_${blogId}`, 'true');
           
@@ -165,6 +189,7 @@ const HomePage = () => {
           showMessage('Blog deleted successfully', 'success');
         }
       } catch (error) {
+        console.error('Error deleting blog:', error);
         if (error.response?.status === 404) {
           showMessage('Blog deleted', 'info');
           localStorage.setItem(`deleted_${blogId}`, 'true');
@@ -289,6 +314,14 @@ const HomePage = () => {
                               >
                                 <DeleteIcon />
                               </IconButton>
+                              <Button 
+                                component={Link} 
+                                to={`/edit/${blog._id}`} 
+                                size="small" 
+                                color="primary"
+                              >
+                                Edit
+                              </Button>
                             </Box>
                           </CardContent>
                         </Card>
@@ -370,6 +403,7 @@ const HomePage = () => {
           </>
         } />
         <Route path="/create" element={<CreateBlogPage addBlog={addBlog} />} /> {/* Route for CreateBlogPage */}
+        <Route path="/edit/:id" element={<EditBlogPage />} /> {/* Route for EditBlogPage */}
       </Routes>
       <Snackbar 
         open={snackbar.open} 
