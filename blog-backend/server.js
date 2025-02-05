@@ -24,7 +24,7 @@ const app = express();
 // Middleware setup
 app.use(express.json());
 app.use(cors({
-    origin: ['https://blogify-smoky-six.vercel.app', 'https://blogify-1-6tey.onrender.com'], // Update this line
+    origin: ['https://blogify-smoky-six.vercel.app', 'https://blogify-1-6tey.onrender.com'], // Ensure this line is correct
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
